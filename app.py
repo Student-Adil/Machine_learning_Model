@@ -3,9 +3,12 @@ from flask import Flask,request, render_template, jsonify
 import pickle
 app = Flask(__name__)
 model = pickle.load(open("model.pkl","rb"))
+# ct=pickle.load(open("encoder.pkl","rb"))
+# le=pickle.load(open("label.pkl","rb"))
 @app.route('/')
 def home():
     return render_template('index.html')  
+
 @app.route('/predict',methods=['POST'])
 def predict():
     major=request.form['major']
