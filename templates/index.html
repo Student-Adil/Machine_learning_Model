@@ -216,7 +216,7 @@
         <div class="bar"></div>
         <div class="step">3</div>
       </div>
-      <form action="{{url_for('predict')}}" method="post">
+      <form id="predictForm">
         <div class="input-group">
           <label for="major"><span class="step-num">1</span> Major Subject</label>
           <input type="text" id="major" name="major" placeholder="Enter a Major subject" required="required">
@@ -229,7 +229,7 @@
           <label for="cgpa"><span class="step-num">3</span> CGPA</label>
           <input type="number" id="cgpa" name="cgpa" placeholder="Enter your Cgpa" required="required" step="0.01" min="0" max="10">
         </div>
-        <input type="Submit" value="Predict">
+        <input type="Submit" value="Predictt">
       </form>
       <h1 id="Predi">{{Predication_text}}</h1>
     </div>
@@ -237,6 +237,33 @@
   <br> 
   
   </div>
+
+
+
+  
+
+<script>
+document.getElementById("predictForm").addEventListener("submit", function(e) {
+  e.preventDefault(); // 🚫 stop normal form submit
+
+  fetch("https://obscure-parakeet-g459qvv79qw73w767-5000.app.github.dev/predict", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      major: document.getElementById("major").value,
+      minor: document.getElementById("minor").value,
+      cgpa: document.getElementById("cgpa").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("Predi").innerText = data.prediction;
+  })
+  .catch(err => console.error(err));
+});
+</script>
 
 </body>
   <!-- <div class="footer-credit">
